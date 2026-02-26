@@ -3,471 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基金组合跟踪器</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #7f8c8d;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
-
-        .portfolio-section {
-            background: white;
-            margin: 20px 0;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .portfolio-section h2 {
-            color: #34495e;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-        }
-
-        .portfolio-details {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .holdings h3, .current-data h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .holdings ul {
-            list-style-type: none;
-        }
-
-        .holdings li {
-            background: #ecf0f1;
-            padding: 8px 12px;
-            margin: 5px 0;
-            border-radius: 5px;
-            border-left: 4px solid #3498db;
-        }
-
-        .current-data p {
-            margin: 8px 0;
-            font-size: 1.1em;
-        }
-
-        .current-data span {
-            font-weight: bold;
-            color: #e74c3c;
-        }
-
-        .positive {
-            color: #27ae60 !important;
-        }
-
-        .negative {
-            color: #e74c3c !important;
-        }
-
-        .chart-container {
-            position: relative;
-            height: 300px;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .portfolio-details {
-                grid-template-columns: 1fr;
-            }
-            
-            .chart-container {
-                height: 200px;
-            }
-        }
-    </style>
+    <title>三地基金实时监控</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h1>基金组合跟踪器</h1>
-        <p class="subtitle">设立日期：2026年1月1日 | 初始资金：各1,000,000</p>
-        
-        <!-- A股组合 -->
-        <div class="portfolio-section">
-            <h2>A股组合 (1,000,000元)</h2>
-            <div class="portfolio-details">
-                <div class="holdings">
-                    <h3>持仓详情</h3>
-                    <ul>
-                        <li>513390 纳指100ETF - 25%</li>
-                        <li>159652 有色50ETF - 25%</li>
-                        <li>588200 科创芯片ETF - 25%</li>
-                        <li>515880 通信ETF - 15%</li>
-                        <li>518880 黄金ETF - 10%</li>
-                    </ul>
-                </div>
-                <div class="current-data">
-                    <h3>当前数据</h3>
-                    <p>净值：<span id="a-gu-net-value">加载中...</span></p>
-                    <p>收益：<span id="a-gu-profit">加载中...</span></p>
-                    <p>收益率：<span id="a-gu-return">加载中...</span></p>
-                </div>
+        <header>
+            <h1><i class="fas fa-chart-line"></i> 三地基金实时监控系统</h1>
+            <div class="last-update">最后更新: <span id="update-time">--:--:--</span></div>
+        </header>
+
+        <div class="summary">
+            <div class="summary-card">
+                <h3>总资产</h3>
+                <div class="amount" id="total-assets">¥ 3,000,000</div>
             </div>
-            <div class="chart-container">
-                <canvas id="a-gu-chart"></canvas>
+            <div class="summary-card">
+                <h3>今日收益</h3>
+                <div class="amount positive" id="today-profit">+ ¥ 15,000</div>
+            </div>
+            <div class="summary-card">
+                <h3>总收益率</h3>
+                <div class="amount positive" id="total-return">+ 5.00%</div>
             </div>
         </div>
 
-        <!-- 港股组合 -->
-        <div class="portfolio-section">
-            <h2>港股组合 (1,000,000港币)</h2>
-            <div class="portfolio-details">
-                <div class="holdings">
-                    <h3>持仓详情</h3>
-                    <ul>
-                        <li>03455 纳指100ETF - 25%</li>
-                        <li>03132 全球半导体ETF - 20%</li>
-                        <li>03147 中国创业板ETF - 20%</li>
-                        <li>03110 恒生高股息ETF - 20%</li>
-                        <li>02840 黄金ETF - 15%</li>
-                    </ul>
-                </div>
-                <div class="current-data">
-                    <h3>当前数据</h3>
-                    <p>净值：<span id="hk-gu-net-value">加载中...</span></p>
-                    <p>收益：<span id="hk-gu-profit">加载中...</span></p>
-                    <p>收益率：<span id="hk-gu-return">加载中...</span></p>
-                </div>
-            </div>
-            <div class="chart-container">
-                <canvas id="hk-gu-chart"></canvas>
-            </div>
+        <div class="tabs">
+            <button class="tab active" data-tab="a-share">A股基金 (¥1,000,000)</button>
+            <button class="tab" data-tab="hk">港股基金 (HK$1,000,000)</button>
+            <button class="tab" data-tab="us">美股基金 ($1,000,000)</button>
         </div>
 
-        <!-- 美股组合 -->
-        <div class="portfolio-section">
-            <h2>美股组合 (1,000,000美元)</h2>
-            <div class="portfolio-details">
-                <div class="holdings">
-                    <h3>持仓详情</h3>
-                    <ul>
-                        <li>QQQ 纳指100ETF - 25%</li>
-                        <li>SPY 标普500ETF - 25%</li>
-                        <li>RING 全球黄金矿股ETF - 20%</li>
-                        <li>COPX 全球铜矿股ETF - 20%</li>
-                        <li>BITB 大饼ETF - 10%</li>
-                    </ul>
-                </div>
-                <div class="current-data">
-                    <h3>当前数据</h3>
-                    <p>净值：<span id="us-gu-net-value">加载中...</span></p>
-                    <p>收益：<span id="us-gu-profit">加载中...</span></p>
-                    <p>收益率：<span id="us-gu-return">加载中...</span></p>
-                </div>
-            </div>
-            <div class="chart-container">
-                <canvas id="us-gu-chart"></canvas>
-            </div>
+        <div class="tab-content active" id="a-share">
+            <!-- A股基金内容由JavaScript动态生成 -->
         </div>
+
+        <div class="tab-content" id="hk">
+            <!-- 港股基金内容由JavaScript动态生成 -->
+        </div>
+
+        <div class="tab-content" id="us">
+            <!-- 美股基金内容由JavaScript动态生成 -->
+        </div>
+
+        <div class="chart-container">
+            <h3><i class="fas fa-chart-area"></i> 净值曲线</h3>
+            <canvas id="nav-chart"></canvas>
+        </div>
+
+        <footer>
+            <p>数据来源: iTick API | 更新时间: 每30秒自动刷新</p>
+            <p>买入时间: 2026年1月4日开盘价 | 系统版本: v1.0</p>
+        </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // 股票代码映射
-        const stockCodes = {
-            'A股': ['513390', '159652', '588200', '515880', '518880'],
-            '港股': ['03455', '03132', '03147', '03110', '02840'],
-            '美股': ['QQQ', 'SPY', 'RING', 'COPX', 'BITB']
-        };
-
-        // 持仓权重
-        const weights = {
-            'A股': [0.25, 0.25, 0.25, 0.15, 0.10],
-            '港股': [0.25, 0.20, 0.20, 0.20, 0.15],
-            '美股': [0.25, 0.25, 0.20, 0.20, 0.10]
-        };
-
-        // 初始投资金额
-        const initialInvestment = 1000000;
-
-        // 存储股票数据
-        let stockData = {};
-
-        // 获取新浪数据的函数
-        async function getSinaData(symbols) {
-            // 模拟数据 - 实际项目中这里应该是真实的API调用
-            const simulatedData = {};
-            symbols.forEach(symbol => {
-                // 生成模拟价格数据
-                const basePrice = Math.random() * 100 + 50; // 随机基础价格
-                const fluctuation = (Math.random() - 0.5) * 10; // 随机波动
-                const currentPrice = basePrice + fluctuation;
-                const yesterdayPrice = basePrice;
-                
-                simulatedData[symbol] = {
-                    currentPrice: currentPrice,
-                    yesterdayPrice: yesterdayPrice,
-                    change: ((currentPrice - yesterdayPrice) / yesterdayPrice * 100).toFixed(2)
-                };
-            });
-            return simulatedData;
-        }
-
-        // 计算组合数据
-        function calculatePortfolio(portfolioType) {
-            const symbols = stockCodes[portfolioType];
-            const weightsArray = weights[portfolioType];
-            
-            let totalValue = 0;
-            let totalInitialValue = 0;
-            
-            symbols.forEach((symbol, index) => {
-                const weight = weightsArray[index];
-                const initialAmount = initialInvestment * weight;
-                
-                if (stockData[symbol]) {
-                    const currentPrice = stockData[symbol].currentPrice;
-                    const yesterdayPrice = stockData[symbol].yesterdayPrice;
-                    
-                    if (currentPrice > 0 && yesterdayPrice > 0) {
-                        // 计算当前价值
-                        const shares = initialAmount / yesterdayPrice; // 基于设立日价格计算份额
-                        const currentValue = shares * currentPrice;
-                        
-                        totalValue += currentValue;
-                        totalInitialValue += initialAmount;
-                    }
-                }
-            });
-            
-            const profit = totalValue - totalInitialValue;
-            const returnRate = totalInitialValue ? ((profit / totalInitialValue) * 100).toFixed(2) : '0.00';
-            
-            return {
-                netValue: totalValue.toFixed(2),
-                profit: profit.toFixed(2),
-                returnRate: returnRate
-            };
-        }
-
-        // 更新页面显示
-        function updateDisplay() {
-            // 更新A股数据
-            const aGuData = calculatePortfolio('A股');
-            document.getElementById('a-gu-net-value').textContent = formatNumber(aGuData.netValue);
-            document.getElementById('a-gu-profit').textContent = formatNumber(aGuData.profit);
-            document.getElementById('a-gu-return').textContent = `${aGuData.returnRate}%`;
-            
-            // 更新港股数据
-            const hkGuData = calculatePortfolio('港股');
-            document.getElementById('hk-gu-net-value').textContent = formatNumber(hkGuData.netValue);
-            document.getElementById('hk-gu-profit').textContent = formatNumber(hkGuData.profit);
-            document.getElementById('hk-gu-return').textContent = `${hkGuData.returnRate}%`;
-            
-            // 更新美股数据
-            const usGuData = calculatePortfolio('美股');
-            document.getElementById('us-gu-net-value').textContent = formatNumber(usGuData.netValue);
-            document.getElementById('us-gu-profit').textContent = formatNumber(usGuData.profit);
-            document.getElementById('us-gu-return').textContent = `${usGuData.returnRate}%`;
-            
-            // 更新颜色
-            updateColorClass('a-gu-profit', parseFloat(aGuData.profit));
-            updateColorClass('a-gu-return', parseFloat(aGuData.returnRate));
-            updateColorClass('hk-gu-profit', parseFloat(hkGuData.profit));
-            updateColorClass('hk-gu-return', parseFloat(hkGuData.returnRate));
-            updateColorClass('us-gu-profit', parseFloat(usGuData.profit));
-            updateColorClass('us-gu-return', parseFloat(usGuData.returnRate));
-        }
-
-        // 格式化数字显示
-        function formatNumber(num) {
-            return parseFloat(num).toLocaleString('zh-CN', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
-        }
-
-        // 更新颜色类
-        function updateColorClass(elementId, value) {
-            const element = document.getElementById(elementId);
-            element.className = '';
-            if (value > 0) {
-                element.classList.add('positive');
-            } else if (value < 0) {
-                element.classList.add('negative');
-            }
-        }
-
-        // 生成净值曲线数据
-        function generateNetWorthHistory(days = 30) {
-            const data = [];
-            let currentValue = initialInvestment;
-            
-            // 生成过去30天的净值数据
-            for (let i = days; i >= 0; i--) {
-                // 模拟每日小幅波动
-                const dailyChange = (Math.random() - 0.5) * 0.02; // ±1%的日波动
-                currentValue = currentValue * (1 + dailyChange);
-                data.unshift({
-                    date: new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                    value: currentValue
-                });
-            }
-            
-            return data;
-        }
-
-        // 绘制图表
-        function drawChart(canvasId, portfolioType) {
-            const ctx = document.getElementById(canvasId).getContext('2d');
-            
-            // 生成净值历史数据
-            const historyData = generateNetWorthHistory();
-            const labels = historyData.map(item => item.date);
-            const values = historyData.map(item => item.value);
-            
-            // 销毁现有图表实例（如果存在）
-            if (Chart.getChart(canvasId)) {
-                Chart.getChart(canvasId).destroy();
-            }
-            
-            // 创建新图表
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: `${portfolioType} 净值`,
-                        data: values,
-                        borderColor: portfolioType === 'A股' ? '#3498db' : 
-                                   portfolioType === '港股' ? '#e74c3c' : '#2ecc71',
-                        backgroundColor: portfolioType === 'A股' ? 'rgba(52, 152, 219, 0.1)' : 
-                                        portfolioType === '港股' ? 'rgba(231, 76, 60, 0.1)' : 
-                                        'rgba(46, 204, 113, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4 // 平滑曲线
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `${context.dataset.label}: ¥${context.parsed.y.toLocaleString('zh-CN', {minimumFractionDigits: 2})}`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: '日期'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: '净值 (¥)'
-                            },
-                            // 设置Y轴的最小值和最大值，使比例更合理
-                            min: Math.min(...values) * 0.99, // 稍微低于最低点
-                            max: Math.max(...values) * 1.01, // 稍微高于最高点
-                            ticks: {
-                                callback: function(value) {
-                                    return '¥' + value.toLocaleString('zh-CN');
-                                }
-                            }
-                        }
-                    },
-                    interaction: {
-                        intersect: false,
-                        mode: 'index',
-                    }
-                }
-            });
-        }
-
-        // 获取所有股票数据
-        async function fetchAllData() {
-            // 合并所有股票代码
-            const allSymbols = [...stockCodes['A股'], ...stockCodes['港股'], ...stockCodes['美股']];
-            
-            // 添加市场前缀
-            const formattedSymbols = allSymbols.map(symbol => {
-                if (symbol.endsWith('SH') || symbol.endsWith('SZ')) {
-                    return symbol.toLowerCase();
-                } else if (symbol.startsWith('0')) {
-                    return `hk${symbol}`;
-                } else if (symbol.length <= 4) {
-                    return `gb_${symbol.toLowerCase()}`; // 美股前缀
-                } else {
-                    // A股代码
-                    if (symbol.startsWith('6')) return `sh${symbol}`;
-                    if (symbol.startsWith('0') || symbol.startsWith('3')) return `sz${symbol}`;
-                    return symbol;
-                }
-            });
-            
-            stockData = await getSinaData(formattedSymbols);
-            updateDisplay();
-        }
-
-        // 初始化页面
-        document.addEventListener('DOMContentLoaded', function() {
-            fetchAllData();
-            
-            // 每分钟更新一次数据
-            setInterval(fetchAllData, 60000);
-            
-            // 绘制图表
-            setTimeout(() => {
-                drawChart('a-gu-chart', 'A股');
-                drawChart('hk-gu-chart', '港股');
-                drawChart('us-gu-chart', '美股');
-            }, 1000);
-        });
-
-        // 窗口大小改变时重新绘制图表
-        window.addEventListener('resize', function() {
-            setTimeout(() => {
-                drawChart('a-gu-chart', 'A股');
-                drawChart('hk-gu-chart', '港股');
-                drawChart('us-gu-chart', '美股');
-            }, 100);
-        });
-    </script>
+    <script src="api/config.js"></script>
+    <script src="api/calculator.js"></script>
+    <script src="api/data-fetcher.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
