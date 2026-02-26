@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基金组合跟踪器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>基金组合跟踪器</h1>
+        <p class="subtitle">设立日期：2026年1月1日 | 初始资金：各1,000,000</p>
+        
+        <!-- A股组合 -->
+        <div class="portfolio-section">
+            <h2>A股组合 (1,000,000元)</h2>
+            <div class="portfolio-details">
+                <div class="holdings">
+                    <h3>持仓详情</h3>
+                    <ul>
+                        <li>513390 纳指100ETF - 25%</li>
+                        <li>159652 有色50ETF - 25%</li>
+                        <li>588200 科创芯片ETF - 25%</li>
+                        <li>515880 通信ETF - 15%</li>
+                        <li>518880 黄金ETF - 10%</li>
+                    </ul>
+                </div>
+                <div class="current-data">
+                    <h3>当前数据</h3>
+                    <p>净值：<span id="a-gu-net-value">加载中...</span></p>
+                    <p>收益：<span id="a-gu-profit">加载中...</span></p>
+                    <p>收益率：<span id="a-gu-return">加载中...</span></p>
+                </div>
+            </div>
+            <canvas id="a-gu-chart" width="400" height="200"></canvas>
+        </div>
+
+        <!-- 港股组合 -->
+        <div class="portfolio-section">
+            <h2>港股组合 (1,000,000港币)</h2>
+            <div class="portfolio-details">
+                <div class="holdings">
+                    <h3>持仓详情</h3>
+                    <ul>
+                        <li>03455 纳指100ETF - 25%</li>
+                        <li>03132 全球半导体ETF - 20%</li>
+                        <li>03147 中国创业板ETF - 20%</li>
+                        <li>03110 恒生高股息ETF - 20%</li>
+                        <li>02840 黄金ETF - 15%</li>
+                    </ul>
+                </div>
+                <div class="current-data">
+                    <h3>当前数据</h3>
+                    <p>净值：<span id="hk-gu-net-value">加载中...</span></p>
+                    <p>收益：<span id="hk-gu-profit">加载中...</span></p>
+                    <p>收益率：<span id="hk-gu-return">加载中...</span></p>
+                </div>
+            </div>
+            <canvas id="hk-gu-chart" width="400" height="200"></canvas>
+        </div>
+
+        <!-- 美股组合 -->
+        <div class="portfolio-section">
+            <h2>美股组合 (1,000,000美元)</h2>
+            <div class="portfolio-details">
+                <div class="holdings">
+                    <h3>持仓详情</h3>
+                    <ul>
+                        <li>QQQ 纳指100ETF - 25%</li>
+                        <li>SPY 标普500ETF - 25%</li>
+                        <li>RING 全球黄金矿股ETF - 20%</li>
+                        <li>COPX 全球铜矿股ETF - 20%</li>
+                        <li>BITB 大饼ETF - 10%</li>
+                    </ul>
+                </div>
+                <div class="current-data">
+                    <h3>当前数据</h3>
+                    <p>净值：<span id="us-gu-net-value">加载中...</span></p>
+                    <p>收益：<span id="us-gu-profit">加载中...</span></p>
+                    <p>收益率：<span id="us-gu-return">加载中...</span></p>
+                </div>
+            </div>
+            <canvas id="us-gu-chart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
